@@ -5,6 +5,40 @@
  */
 
 // @version 2026112502
+
+// ===== 面板内容（远程脚本收不到 App 面板注入的数据，这里手动写入）=====
+// 格式与 App 在内置托管脚本前注入的完全一致。
+// 注意：若把本脚本粘贴进 App 的"托管模式"编辑器，需删掉这一段，否则会与 App 注入的同名常量冲突。
+const bettboxRoutes = [
+  {
+    name: 'EHentai',
+    icon: 'https://cdn.jsdelivr.net/gh/appshubcc/Qure_Style_SVG@main/icon/svg/common/EHentai.svg',
+    target: '新加坡',
+    sets: [{ type: 'geosite', tag: 'ehentai' }],
+  },
+  {
+    name: 'porn',
+    icon: 'https://cdn.jsdelivr.net/gh/appshubcc/Qure_Style_SVG@main/icon/svg/common/Pornhub.svg',
+    sets: [
+      {
+        type: 'geosite',
+        tag: 'porn',
+        url: 'https://cdn.jsdelivr.net/gh/frostmage1250/proxy-rules-converter@main/dist/mihomo/porn.mrs',
+        format: 'mrs',
+      },
+    ],
+  },
+];
+const bettboxRegions = ['香港', '日本', '美国', '新加坡', '台湾', '家宽'];
+const bettboxCustomRegions = [{ name: '家宽', regex: '家宽' }];
+const bettboxOrder = [
+  '手动选择', '自动选择', 'Claude', 'AI', 'YouTube', 'Google', 'Telegram', 'GitHub', 'Microsoft',
+  'Apple', 'AppleTV', 'ApplePodcasts', 'Steam', 'TikTok', 'Twitter', 'Meta', 'PikPak',
+  'EHentai', 'porn', 'Netflix', 'Spotify', 'Crypto', 'AdBlock', 'FCM',
+  '香港', '日本', '美国', '新加坡', '台湾', '家宽', '低倍率节点', '高倍率节点',
+];
+// ===== 面板内容结束 =====
+
 const Compatible_With_Bettbox = { ruleOptionsEnable: true };
 
 const ruleOptionsEnable = {
