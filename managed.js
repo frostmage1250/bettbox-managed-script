@@ -59,6 +59,7 @@ const directRules = [
   'RULE-SET,apple-tvplus,AppleTV',
   'RULE-SET,apple-podcasts,ApplePodcasts',
   'RULE-SET,apple_cn,直连',
+  'RULE-SET,nvidia_cn,直连',
   // 'RULE-SET,google_cn,直连',
 ];
 
@@ -239,6 +240,11 @@ const baseRuleProviders = {
     url: `${ruleSetBaseUrl}geosite/apple@cn.mrs`,
     path: './ruleset/apple@cn.mrs',
     'path-in-bundle': 'geo/geosite/apple@cn.mrs',
+  },
+  nvidia_cn: {
+    ...ruleProviderCommonDomain,
+    url: `${ruleSetBaseUrl}geosite/nvidia@cn.mrs`,
+    path: './ruleset/nvidia@cn.mrs',
   },
   ...(directRules.some((r) => r.includes(',google_cn,')) && {
     google_cn: {
