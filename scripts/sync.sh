@@ -38,7 +38,8 @@ base_ver="$(get_version "$BASE")"
 new_ver="$(get_version "$tmp/new.js")"
 echo "上游更新：${base_ver:-?} -> ${new_ver:-?}"
 
-# 先把自定义版的版本号对齐到基准，避免版本号那一行每次都冲突
+# 先把自定义版的版本号对齐到基准，避免版本号那一行冲突；
+# 合并后版本号自然跟随最新上游
 if [ -n "$base_ver" ]; then
   set_version "$CUSTOM" "$base_ver" > "$tmp/ours.js"
 else
@@ -62,13 +63,7 @@ if [ "$rc" -ne 0 ]; then
   exit 1
 fi
 
-# 自定义版版本号 = 上游版本号的年份 +1，例如 2026112502 -> 2027112502
-if [ -n "$new_ver" ]; then
-  custom_ver="$(( ${new_ver:0:4} + 1 ))${new_ver:4}"
-  set_version "$tmp/merged.js" "$custom_ver" > "$tmp/final.js"
-else
-  cp "$tmp/merged.js" "$tmp/final.js"
-fi
+cp "$tmp/merged.js" "$tmp/final.js"
 
 if command -v node > /dev/null 2>&1; then
   cp "$tmp/final.js" "$tmp/check.js"
@@ -79,5 +74,5 @@ fi
 
 cp "$tmp/final.js" "$CUSTOM"
 cp "$tmp/new.js" "$BASE"
-echo "已合并，自定义版版本号：${custom_ver:-未变}"
-summary "## ✅ 已同步" "" "上游 ${base_ver} -> ${new_ver}，自定义版 ${custom_ver:-未变}"
+echo "已合并，版本号：$(get_version "$CUSTOM")"
+summary "## ✅ 已同步" "" "上游 ${base_ver} -> ${new_ver}"
