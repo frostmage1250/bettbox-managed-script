@@ -16,7 +16,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: 抓取上游并合并自定义修改
         run: bash scripts/sync.sh
