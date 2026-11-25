@@ -1,0 +1,35 @@
+name: 同步上游托管脚本
+
+on:
+  schedule:
+    - cron: '17 */3 * * *' # 每 3 小时一次（UTC）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 抓取上游并合并自定义修改
+        run: bash scripts/sync.sh
+
+      - name: 提交变更
+        run: |
+          if git diff --quiet -- managed.js upstream/managed.js; then
+            echo "没有变更。"
+            exit 0
+          fi
+          ver=$(grep -m1 -E '^// @version [0-9]+$' upstream/managed.js | awk '{print $3}')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add managed.js upstream/managed.js
+          git commit -m "同步上游 managed.js ${ver}"
+          git push
