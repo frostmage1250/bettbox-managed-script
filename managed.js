@@ -1596,12 +1596,11 @@ function dnsHost(dns) {
   return host.indexOf(':') === host.lastIndexOf(':') ? host.split(':')[0] : host;
 }
 
-const chinaDNS = ['system', '223.6.6.6#DIRECT', '119.29.29.29#DIRECT'];
+const chinaDNS = ['223.6.6.6#DIRECT', '119.29.29.29#DIRECT'];
 const douyinDNS = ['180.184.1.1#DIRECT', '180.184.2.2#DIRECT'];
 const policyDNS = (group) => [`tcp://1.1.1.1#${group}`, `8.8.8.8#${group}`];
 const foreignDNS = policyDNS('默认代理');
-// 自定义：chinaDNS 里的 system 不适合放进 default-nameserver（只应是纯 IP），这里去掉
-const defaultDNS = chinaDNS.filter((ns) => ns !== 'system');
+const defaultDNS = chinaDNS;
 const proxyServerDNS = [
   'https://223.5.5.5/dns-query#DIRECT',
   'https://doh.pub/dns-query#DIRECT',
